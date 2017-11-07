@@ -10,6 +10,8 @@ To get started with the development of the project, these python packages are re
   * [requests](https://github.com/requests/requests) - Python library to handle the HTTP request
   * [pywit](https://github.com/wit-ai/pywit) - Python SDK for Wit.ai
   * [python-prompt-toolkit](https://github.com/jonathanslenders/python-prompt-toolkit) - library for building powerful interactive command lines and terminal applications in Python
+  * [pymessenger](https://github.com/davidchua/pymessenger) - Python Wrapper for Facebook Messenger Platform
+  * [flask](http://flask.pocoo.org/) - Python written micro web framework
   
 ### Installing
 Follow the step by step guide to start the development for the project.
@@ -28,10 +30,7 @@ source bin/activate
 ```
 Install the prerequisites python packages via pip
 ```
-pip install bs4
-pip install requests
-pip install pywit
-pip install python-prompt-toolkit
+pip install bs4 requests pywit python-prompt-toolkit pymessenger flask
 ```
 Then run the program by running the command
 ```
