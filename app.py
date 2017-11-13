@@ -22,8 +22,9 @@ def verity():
 
 @app.route("/webhook", methods=["POST"])
 def handle_messages():
-    payload = request.get_data()
-    print(payload)
+    payload = request.get_json()
+    sender_id = payload["entry"][0]["messaging"][0]["sender"]["id"]
+    facebook_bot.send_text_message(sender_id, payload)
     return "ok", 200
 
 # def webhook():
