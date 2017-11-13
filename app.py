@@ -32,10 +32,10 @@ def webhook():
         recipient_id = message_content["recipient"]["id"]
 
         if ("message" in message_content.keys() and "is_echo" not in message_content.keys()):
+            print(message)
             message = message_content["message"]["text"]
             tabot.generate_answer_type(message)
             answer_type = tabot.get_answer_type()
-            print(message)
             print(answer_type)
             if answer_type == "event_only":
                 send_message(facebook_access_token, sender_id, event.get_event_info())
