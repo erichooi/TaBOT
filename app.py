@@ -31,8 +31,9 @@ def webhook():
 
         if ("message" in message_content.keys()):
             print(message_content["message"]["text"])
+            facebook_bot.send_text_message(sender_id, message_content["message"]["text"])
         else:
-            print("no message")
+            facebook_bot.send_text_message(sender_id, "no message")
         # if ("message" in message_content.keys()):
         #     if ("text" in message_content["message"].keys()):
         #         print(message_content["message"]["text"])
