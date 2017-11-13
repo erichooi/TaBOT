@@ -30,20 +30,22 @@ def webhook():
         message_content = entry[0]["messaging"][0]
         sender_id = message_content["sender"]["id"]
         recipient_id = message_content["recipient"]["id"]
+
         print(sender_id)
         print(recipient_id)
-        if ("message" in message_content.keys()):
-            print("Need wit ai")
-            print(message_content)
-            message = message_content["message"]["text"]
-            tabot.generate_answer_type(message)
-            answer_type = tabot.get_answer_type()
-            if answer_type == "event_only":
-                send_message(facebook_access_token, sender_id, event.get_event_info())
-            elif answer_type == "greetings":
-                send_message(facebook_access_token, sender_id, "Hi! anything I can help?\nFeel free to talk to me")
-        else:
-            pass
+        print(message_content)
+        # if ("message" in message_content.keys()):
+        #     print("Need wit ai")
+        #     print(message_content)
+        #     message = message_content["message"]["text"]
+        #     tabot.generate_answer_type(message)
+        #     answer_type = tabot.get_answer_type()
+        #     if answer_type == "event_only":
+        #         send_message(facebook_access_token, sender_id, event.get_event_info())
+        #     elif answer_type == "greetings":
+        #         send_message(facebook_access_token, sender_id, "Hi! anything I can help?\nFeel free to talk to me")
+        # else:
+        #     pass
 
     return "ok", 200
 
