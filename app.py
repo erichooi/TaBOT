@@ -30,7 +30,8 @@ def webhook():
         message_content = entry[0]["messaging"][0]
         sender_id = message_content["sender"]["id"]
         recipient_id = message_content["recipient"]["id"]
-
+        print(sender_id)
+        print(recipient_id)
         if ("message" in message_content.keys()):
             print("Need wit ai")
             print(message_content)
