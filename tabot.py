@@ -42,13 +42,13 @@ class TaBOT:
 
     def _send_message(self, message):
         self._resp = client.message(message)
+        print(self._resp)
 
     def _update_entities(self):
         """
         :param dict resp: response message from wit ai after sending message
         :return int ErrorCode: refer ErrorCode class
         """
-        print(self._entities)
         self._entities = self._resp["entities"]
         if not self._entities:
             raise NotEntityFound
