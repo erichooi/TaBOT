@@ -28,6 +28,7 @@ def get_event_info_date(day, month, year):
     """
     event_page = scraper.get_webpage_content(EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day))
     event_data = scraper.get_event_data(event_page, "div")
+    event_data = event_data[0:2]
     event_info = ""
     for data in event_data:
         event_info += data["title"] + "\n"
