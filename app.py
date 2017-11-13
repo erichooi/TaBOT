@@ -23,6 +23,22 @@ def verity():
     return "Verify success", 200
 
 @app.route("/webhook", methods=["POST"])
+def webhook():
+    data = request.get_json()
+    if data["object"] == "page":
+        entry = data["entry"]
+        message_content = entry[0]["messaging"][0]
+        sender_id = message_content["sender"]["id"]
+        recipient_id = message_content["recipient"]["id"]
+
+        if ("message" in message_content.keys()):
+            print(message_content["message"])
+            send_message(facebook_access_token, sender_id, message_content["message"]["text"])
+        else:
+            pass
+
+    return "ok", 200
+
 def send_message(token, recipient_id, text):
     """
     :param token:
@@ -40,19 +56,6 @@ def send_message(token, recipient_id, text):
     if req.status_code != requests.codes.ok:
         print(req.text)
 
-
-def webhook():
-    data = request.get_json()
-    if data["object"] == "page":
-        entry = data["entry"]
-        message_content = entry[0]["messaging"][0]
-        sender_id = message_content["sender"]["id"]
-        recipient_id = message_content["recipient"]["id"]
-
-        if ("message" in message_content.keys()):
-            send_message(facebook_access_token, sender_id, message_content["message"]["text"])
-        else:
-            pass
         # if ("message" in message_content.keys()):
         #     if ("text" in message_content["message"].keys()):
         #         print(message_content["message"]["text"])
@@ -69,7 +72,6 @@ def webhook():
         # else:
         #     facebook_bot.send_text_message(sender_id, "no message sent")
 
-    return "ok", 200
 
 if __name__ == "__main__":
     app.run(debug=True, port=80)
