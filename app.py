@@ -41,6 +41,8 @@ def webhook():
                 send_message(facebook_access_token, sender_id, event.get_event_info())
             elif answer_type == "greetings":
                 send_message(facebook_access_token, sender_id, "Hi! anything I can help?\nFeel free to talk to me")
+            elif answer_type == "bye":
+                send_message(facebook_access_token, sender_id, "Bye...")
         else:
             pass
 
