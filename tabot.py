@@ -31,7 +31,7 @@ class TaBOT:
         self._resp = dict()
         self.entity_answer = {
             "event_only": ["event"],
-            "event_with_date": ["event", "dateformat"],
+            "event_with_date": ["event", "datetime"],
             "bye": ["bye", "greetings"],
             "greetings": ["greetings"]
         }
