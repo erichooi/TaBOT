@@ -32,6 +32,7 @@ def webhook():
         recipient_id = message_content["recipient"]["id"]
 
         if ("message" in message_content.keys()):
+            print("Need wit ai")
             message = message_content["message"]["text"]
             tabot.generate_answer_type(message)
             answer_type = tabot.get_answer_type()
