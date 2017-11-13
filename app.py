@@ -4,6 +4,8 @@ from tabot import TaBOT
 
 import config
 import event
+import requests
+import json
 
 facebook_access_token = config.get_yml_section("facebook")["access_token"]
 facebook_bot = Bot(facebook_access_token)
@@ -21,6 +23,24 @@ def verity():
     return "Verify success", 200
 
 @app.route("/webhook", methods=["POST"])
+def send_message(token, recipient_id, text):
+    """
+    :param token:
+    :param recipient_id:
+    :param text:
+    :return:
+    """
+    req = requests.post("https://graph.facebook.com/v2.6/me/messages",
+                        params = {"access_token": token},
+                        data = json.dumps({
+                            "recipient": {"id": recipient_id},
+                            "message": {"text": text.decode("unicode_escape")}
+                        }),
+                        headers = {"Content-type": "application/json"})
+    if req.status_code != requests.codes.ok:
+        print(req.text)
+
+
 def webhook():
     data = request.get_json()
     if data["object"] == "page":
@@ -30,8 +50,7 @@ def webhook():
         recipient_id = message_content["recipient"]["id"]
 
         if ("message" in message_content.keys()):
-            print(sender_id)
-            print(message_content["message"]["text"])
+            send_message(facebook_access_token, sender_id, message_content["message"]["text"])
         else:
             pass
         # if ("message" in message_content.keys()):
