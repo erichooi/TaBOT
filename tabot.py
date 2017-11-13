@@ -3,9 +3,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from enum import Enum
 from prompt_toolkit import prompt
 from wit import Wit
+from dateutil import parser
 
 import event
 import config
@@ -58,18 +58,11 @@ class TaBOT:
         """
         :return void: update the self._data
         """
-        day = 1
-        month = 1
-        year = 1
-        try:
-            day = self._entities['dateformat'][0]['entities']['day'][0]['value']
-            month = self._entities['dateformat'][0]['entities']['month'][0]['value']
-            year = self._entities['dateformat'][0]['entities']['year'][0]['value']
-        except KeyError as e:
-            pass
-        self._date["day"] = day
-        self._date["month"] = month
-        self._date["year"] = year
+        date_value = self._entities["dateformat"][0]["value"]
+        date = parser.parse(date_value)
+        self._date["day"] = date.day
+        self._date["month"] = date.month
+        self._date["year"] = date.year
 
     def _update_answer_type(self):
         """
@@ -134,7 +127,13 @@ class TaBOT:
 #             break
 #         elif answer_type == "event_with_date":
 #             date = chatbot.get_date()
-#             print(event.get_event_info().encode("utf8"))
+#             day = date["day"]
+#             month = date["month"]
+#             year = date["year"]
+#             print(date["day"])
+#             print(date["month"])
+#             print(date["year"])
+#             print(event.get_event_info_date(day, month, year).encode("utf8"))
 #         else:
 #             print("Sorry, I still cannot answer that question now. But in the near future, I will be able to do so!!! :)")
 #             print("For now, you can ask question like this:")
