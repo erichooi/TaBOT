@@ -30,8 +30,8 @@ def webhook():
         recipient_id = message_content["recipient"]["id"]
 
         if ("message" in message_content.keys()):
+            print(sender_id)
             print(message_content["message"]["text"])
-            facebook_bot.send_text_message(sender_id, message_content["message"]["text"])
         else:
             pass
         # if ("message" in message_content.keys()):
