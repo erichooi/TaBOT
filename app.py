@@ -36,7 +36,6 @@ def webhook():
             print(message)
             tabot.generate_answer_type(message)
             answer_type = tabot.get_answer_type()
-            print(answer_type)
             if answer_type == "event_only":
                 send_message(facebook_access_token, sender_id, event.get_event_info())
             elif answer_type == "greetings":

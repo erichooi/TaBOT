@@ -97,7 +97,6 @@ class TaBOT:
         :param string message: Question that asked by user
         :return void: run the process of getting the answer_type
         """
-        print(message)
         self._send_message(message)
         try:
             self._update_entities()
