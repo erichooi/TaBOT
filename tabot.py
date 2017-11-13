@@ -97,6 +97,7 @@ class TaBOT:
         :param string message: Question that asked by user
         :return void: run the process of getting the answer_type
         """
+        print(message)
         self._send_message(message)
         try:
             self._update_entities()
@@ -112,34 +113,34 @@ class TaBOT:
 
     # /// this part code only for terminal printing and testing
     # handle the asking event question
-    def answer_event(self):
-        event.print_event_info()
-
-def main():
-    print("Hi, I am TaBOT :)")
-    while True:
-        chatbot = TaBOT()
-        message = prompt(">>> ").rstrip()
-        chatbot.generate_answer_type(message)
-        answer_type = chatbot.get_answer_type()
-
-        if answer_type == "event_only":
-            print(event.get_event_info().encode("utf8"))
-        elif answer_type == "greetings":
-            print("Hi, I am a chatbot that can help you to understand more about UTM Malaysia.")
-            print("Feel free to ask me any question about UTM Malaysia.")
-        elif answer_type == "bye":
-            print("Nice to talk to you.")
-            print("Bye bye.....")
-            break
-        elif answer_type == "event_with_date":
-            date = chatbot.get_date()
-            print(event.get_event_info().encode("utf8"))
-        else:
-            print("Sorry, I still cannot answer that question now. But in the near future, I will be able to do so!!! :)")
-            print("For now, you can ask question like this:")
-            print("    What is the event in UTM?")
-            print("    Is there any event in Aug 2017?")
-
-if __name__ == "__main__":
-    main()
+#     def answer_event(self):
+#         event.print_event_info()
+#
+# def main():
+#     print("Hi, I am TaBOT :)")
+#     while True:
+#         chatbot = TaBOT()
+#         message = prompt(">>> ").rstrip()
+#         chatbot.generate_answer_type(message)
+#         answer_type = chatbot.get_answer_type()
+#
+#         if answer_type == "event_only":
+#             print(event.get_event_info().encode("utf8"))
+#         elif answer_type == "greetings":
+#             print("Hi, I am a chatbot that can help you to understand more about UTM Malaysia.")
+#             print("Feel free to ask me any question about UTM Malaysia.")
+#         elif answer_type == "bye":
+#             print("Nice to talk to you.")
+#             print("Bye bye.....")
+#             break
+#         elif answer_type == "event_with_date":
+#             date = chatbot.get_date()
+#             print(event.get_event_info().encode("utf8"))
+#         else:
+#             print("Sorry, I still cannot answer that question now. But in the near future, I will be able to do so!!! :)")
+#             print("For now, you can ask question like this:")
+#             print("    What is the event in UTM?")
+#             print("    Is there any event in Aug 2017?")
+#
+# if __name__ == "__main__":
+#     main()
