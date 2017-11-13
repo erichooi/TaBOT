@@ -9,7 +9,6 @@ import json
 
 facebook_access_token = config.get_yml_section("facebook")["access_token"]
 facebook_bot = Bot(facebook_access_token)
-tabot = TaBOT()
 
 app = Flask(__name__)
 
@@ -24,6 +23,7 @@ def verity():
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
+    tabot = TaBOT()
     data = request.get_json()
     if data["object"] == "page":
         entry = data["entry"]
@@ -32,7 +32,6 @@ def webhook():
         recipient_id = message_content["recipient"]["id"]
 
         if ("message" in message_content.keys() and "is_echo" not in message_content["message"].keys()):
-            print(message_content)
             message = message_content["message"]["text"]
             tabot.generate_answer_type(message)
             answer_type = tabot.get_answer_type()
