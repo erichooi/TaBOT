@@ -13,102 +13,133 @@ import config
 access_token = config.get_yml_section("wit")["access_token"]
 client = Wit(access_token=access_token)
 
-class ErrorCode(Enum):
-    UNDERSTAND = 0
-    NOT_ENTITIES_FOUND = 1
-    NOT_UNDERSTAND = 2
-    START_CONVERSATION = 3
-    CONTINUE_CONVERSATION = 4
-    END_CONVERSATION = 5
+class TaBOTError(Exception):
+    """ Basic exception for errors raised by TaBOT """
+    def __init__(self, msg = None):
+        if msg is None:
+            msg = "An error occurred"
+        super(Exception, self).__init__(msg)
+
+class NotEntityFound(TaBOTError):
+    """ When not entity found """
+    def __init__(self):
+        msg = "Not entity found"
+        super(TaBOTError, self).__init__(msg)
 
 class TaBOT:
     def __init__(self):
+        self._resp = dict()
         self.entity_answer = {
             "event_only": ["event"],
             "event_with_date": ["event", "dateformat"],
             "bye": ["bye", "greetings"],
             "greetings": ["greetings"]
         }
-        self.entities = dict() # get the entities from user question
-        self.date = dict() # get the date from user question if the question has date input
-        self.answer_entity_bank = [] # get the possible combination of entity to answer user question
+        self._entities = dict() # get the entities from user question
+        self._date = dict() # get the date from user question if the question has date input
+        self._answer_entity_bank = [] # get the possible combination of entity to answer user question
+        self._answer_type = "" # get the type of answer in self.entity_answer
 
-    def send_message(self, message):
-        resp = client.message(message)
-        return resp
+    def _send_message(self, message):
+        self._resp = client.message(message)
 
-    def update_entities(self, resp):
-        self.entities = resp["entities"]
-        if not self.entities:
-            return ErrorCode.NOT_ENTITIES_FOUND
+    def _update_entities(self):
+        """
+        :param dict resp: response message from wit ai after sending message
+        :return int ErrorCode: refer ErrorCode class
+        """
+        self._entities = self._resp["entities"]
+        if not self._entities:
+            raise NotEntityFound
         else:
-            return None
+            pass
 
-    # handle the asking event question
-    def answer_event(self):
-        event.print_event_info()
-
-    def extract_and_format_date(self):
+    def _extract_and_format_date(self):
+        """
+        :return void: update the self._data
+        """
         day = 1
         month = 1
         year = 1
         try:
-            day = self.entities['dateformat'][0]['entities']['day'][0]['value']
-            month = self.entities['dateformat'][0]['entities']['month'][0]['value']
-            year = self.entities['dateformat'][0]['entities']['year'][0]['value']
+            day = self._entities['dateformat'][0]['entities']['day'][0]['value']
+            month = self._entities['dateformat'][0]['entities']['month'][0]['value']
+            year = self._entities['dateformat'][0]['entities']['year'][0]['value']
         except KeyError as e:
             pass
-        self.date["day"] = day
-        self.date["month"] = month
-        self.date["year"] = year
+        self._date["day"] = day
+        self._date["month"] = month
+        self._date["year"] = year
 
-    def return_message(self):
-        answer_type = ""
+    def _update_answer_type(self):
+        """
+        :return void: update the self._answer_type
+        """
         # update the answer entity bank
-        for entity in self.entities:
+        for entity in self._entities:
             if entity == "dateformat":
-                self.extract_and_format_date()
-            self.answer_entity_bank.append(entity)
-        # get the answer key / answer type
+                self._extract_and_format_date()
+            self._answer_entity_bank.append(entity)
+        # get the answer type
         for key, value in self.entity_answer.items():
-            if sorted(value) == sorted(self.answer_entity_bank):
-                answer_type = key
-        # answer based on different answer_type
+            if sorted(value) == sorted(self._answer_entity_bank):
+                self._answer_type = key
+
+    def get_answer_type(self):
+        """
+        :return string self._answer_type:
+        """
+        return self._answer_type
+
+    def generate_answer_type(self, message):
+        """
+        Process to get the answer type
+        :param string message: Question that asked by user
+        :return void: run the process of getting the answer_type
+        """
+        self._send_message(message)
+        try:
+            self._update_entities()
+            self._update_answer_type()
+        except NotEntityFound as e:
+            print(e)
+
+    def get_date(self):
+        """
+        :return dict self._date: the date of from the question of user
+        """
+        return self._date
+
+    # /// this part code only for terminal printing and testing
+    # handle the asking event question
+    def answer_event(self):
+        event.print_event_info()
+
+def main():
+    print("Hi, I am TaBOT :)")
+    while True:
+        chatbot = TaBOT()
+        message = prompt(">>> ").rstrip()
+        chatbot.generate_answer_type(message)
+        answer_type = chatbot.get_answer_type()
+
         if answer_type == "event_only":
-            event.print_event_info()
-            return ErrorCode.CONTINUE_CONVERSATION
+            print(event.get_event_info().encode("utf8"))
         elif answer_type == "greetings":
             print("Hi, I am a chatbot that can help you to understand more about UTM Malaysia.")
             print("Feel free to ask me any question about UTM Malaysia.")
-            return ErrorCode.CONTINUE_CONVERSATION
         elif answer_type == "bye":
             print("Nice to talk to you.")
             print("Bye bye.....")
-            return ErrorCode.END_CONVERSATION
+            break
         elif answer_type == "event_with_date":
-            event.print_event_info_date(self.date["day"], self.date["month"], self.date["year"])
+            date = chatbot.get_date()
+            print(event.get_event_info().encode("utf8"))
         else:
             print("Sorry, I still cannot answer that question now. But in the near future, I will be able to do so!!! :)")
             print("For now, you can ask question like this:")
             print("    What is the event in UTM?")
             print("    Is there any event in Aug 2017?")
-            return ErrorCode.CONTINUE_CONVERSATION
-
-def main():
-    print("Hi, I am TaBOT :)")
-    while True:
-        try:
-            chatbot = TaBOT()
-            message = prompt(">>> ").rstrip()
-            print()
-            resp = chatbot.send_message(message)
-            chatbot.update_entities(resp)
-            message_code = chatbot.return_message()
-            print()
-            if message_code == ErrorCode.END_CONVERSATION:
-                break
-        except(KeyboardInterrupt, EOFError):
-            return
 
 if __name__ == "__main__":
     main()
