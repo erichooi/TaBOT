@@ -48,6 +48,7 @@ def webhook():
                 day = date["day"]
                 month = date["month"]
                 year = date["year"]
+                print(day + " " + month + " " + year)
                 send_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
             elif answer_type == "greetings":
                 send_message(facebook_access_token, sender_id, greeting_text)
