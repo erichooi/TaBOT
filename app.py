@@ -50,8 +50,8 @@ def webhook():
                 send_message(facebook_access_token, sender_id, greeting_text)
             elif answer_type == "bye":
                 send_message(facebook_access_token, sender_id, "Bye...")
-            # else:
-            #     send_message(facebook_access_token, sender_id, help_text)
+            else:
+                send_message(facebook_access_token, sender_id, help_text)
         else:
             pass
     else:

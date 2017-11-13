@@ -48,6 +48,7 @@ class TaBOT:
         :param dict resp: response message from wit ai after sending message
         :return int ErrorCode: refer ErrorCode class
         """
+        print(self._entities)
         self._entities = self._resp["entities"]
         if not self._entities:
             raise NotEntityFound
