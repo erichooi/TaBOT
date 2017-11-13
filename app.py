@@ -1,5 +1,4 @@
 from flask import Flask, request
-from pymessenger import Bot
 from tabot import TaBOT
 
 import config
@@ -8,9 +7,14 @@ import requests
 import json
 
 facebook_access_token = config.get_yml_section("facebook")["access_token"]
-facebook_bot = Bot(facebook_access_token)
 
 app = Flask(__name__)
+
+help_text = "You can ask me the following question.\n"
+help_text += "1. Any event in UTM lately?\n"
+help_text += "2. Any event on 11/11/2017?"
+
+greeting_text = "Hi! I am TaBot."
 
 @app.route("/webhook", methods=["GET"])
 def verity():
@@ -29,7 +33,6 @@ def webhook():
         entry = data["entry"]
         message_content = entry[0]["messaging"][0]
         sender_id = message_content["sender"]["id"]
-        recipient_id = message_content["recipient"]["id"]
 
         if ("message" in message_content.keys() and "is_echo" not in message_content["message"].keys()):
             message = message_content["message"]["text"]
@@ -38,11 +41,15 @@ def webhook():
             if answer_type == "event_only":
                 send_message(facebook_access_token, sender_id, event.get_event_info())
             elif answer_type == "greetings":
-                send_message(facebook_access_token, sender_id, "Hi! anything I can help?\nFeel free to talk to me")
+                send_message(facebook_access_token, sender_id, greeting_text)
             elif answer_type == "bye":
                 send_message(facebook_access_token, sender_id, "Bye...")
+            else:
+                send_message(facebook_access_token, sender_id, help_text)
         else:
             pass
+    else:
+        pass
 
     return "ok", 200
 
@@ -62,23 +69,6 @@ def send_message(token, recipient_id, text):
                         headers = {"Content-type": "application/json"})
     if req.status_code != requests.codes.ok:
         print(req.text)
-
-        # if ("message" in message_content.keys()):
-        #     if ("text" in message_content["message"].keys()):
-        #         print(message_content["message"]["text"])
-        #         # send text to wit ai to process
-        #         tabot.generate_answer_type(message_content["message"]["text"])
-        #         answer_type = tabot.get_answer_type()
-        #         if answer_type == "event_only":
-        #             facebook_bot.send_text_message(sender_id, "event only")
-        #             # facebook_bot.send_text_message(sender_id, event.get_event_info())
-        #         elif answer_type == "greetings":
-        #             facebook_bot.send_text_message(sender_id, "Hi! anything I can help?\nFeel free to talk to me")
-        #     else:
-        #         facebook_bot.send_text_message(sender_id, "no text found in message")
-        # else:
-        #     facebook_bot.send_text_message(sender_id, "no message sent")
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=80)
