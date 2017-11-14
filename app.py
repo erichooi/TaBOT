@@ -39,8 +39,8 @@ def webhook():
             tabot.generate_answer_type(message)
             answer_type = tabot.get_answer_type()
             if answer_type == "event_only":
-                send_text_message(facebook_access_token, sender_id, event.get_event_info())
-                # send_list_view(facebook_access_token, sender_id, event.get_event_info_list_view())
+                # send_text_message(facebook_access_token, sender_id, event.get_event_info())
+                send_list_view(facebook_access_token, sender_id, event.get_event_info_list_view())
             elif answer_type == "event_with_date":
                 date = tabot.get_date()
                 day = date["day"]

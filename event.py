@@ -60,14 +60,20 @@ def get_event_info_list_view():
             {
                 "title": event_data[0]["title"],
                 "image_url": "https://www.facebook.com/images/fb_icon_325x325.png",
-                "buttons": {
-                    "title": "view",
-                    "type": "web_url",
-                    "url": "https://www.wit.ai",
-                    "messenger_extensions": "true",
-                    "webview_height_ratio": "tall",
-                    "fallback_url": "https://test.com"
-                }
+                "buttons": [
+                    {
+                        "title": "View",
+                        "type": "web_url",
+                        "url": "https://www.wit.ai",
+                        "messenger_extensions": "true",
+                        "webview_height_ratio": "tall",
+                        "fallback_url": "https://test.com"
+                    }
+                ]
+            },
+            {
+                "title": "fun to test",
+                "subtitle": "very fun"
             }
         ],
         "buttons": [
