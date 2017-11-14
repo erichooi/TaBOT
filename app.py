@@ -35,6 +35,7 @@ def webhook():
         sender_id = message_content["sender"]["id"]
 
         if ("message" in message_content.keys() and "is_echo" not in message_content["message"].keys()):
+            print(message_content)
             message = message_content["message"]["text"]
             tabot.generate_answer_type(message)
             answer_type = tabot.get_answer_type()
