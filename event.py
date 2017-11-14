@@ -55,6 +55,7 @@ def get_event_info_list_view():
                 {
                     "title": "View",
                     "url": data["url"],
+                    "type": "web_url",
                     "webview_height_ratio": "compact"
                 }
             ]
