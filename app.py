@@ -42,6 +42,7 @@ def webhook():
                 send_message(facebook_access_token, sender_id, event.get_event_info())
             elif answer_type == "event_with_date":
                 date = tabot.get_date()
+                print(tabot.get_entities())
                 print(date)
                 day = date["day"]
                 month = date["month"]
