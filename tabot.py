@@ -58,7 +58,6 @@ class TaBOT:
         """
         :return void: update the self._data
         """
-        print(self._entities)
         date_value = self._entities["datetime"][0]["value"]
         date = parser.parse(date_value)
         self._date["day"] = date.day
@@ -103,6 +102,12 @@ class TaBOT:
         :return dict self._date: the date of from the question of user
         """
         return self._date
+
+    def get_entities(self):
+        """
+        :return dict self._entities: the entities for the question of user
+        """
+        return self._entities
 
     # /// this part code only for terminal printing and testing
     # handle the asking event question
