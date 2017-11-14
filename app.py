@@ -39,19 +39,20 @@ def webhook():
             tabot.generate_answer_type(message)
             answer_type = tabot.get_answer_type()
             if answer_type == "event_only":
-                send_message(facebook_access_token, sender_id, event.get_event_info())
+                # send_text_message(facebook_access_token, sender_id, event.get_event_info())
+                send_list_view(facebook_access_token, sender_id, event.get_event_info_list_view())
             elif answer_type == "event_with_date":
                 date = tabot.get_date()
                 day = date["day"]
                 month = date["month"]
                 year = date["year"]
-                send_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
+                send_text_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
             elif answer_type == "greetings":
-                send_message(facebook_access_token, sender_id, greeting_text)
+                send_text_message(facebook_access_token, sender_id, greeting_text)
             elif answer_type == "bye":
-                send_message(facebook_access_token, sender_id, "Bye...")
+                send_text_message(facebook_access_token, sender_id, "Bye...")
             else:
-                send_message(facebook_access_token, sender_id, help_text)
+                send_text_message(facebook_access_token, sender_id, help_text)
         else:
             pass
     else:
@@ -59,18 +60,41 @@ def webhook():
 
     return "ok", 200
 
-def send_message(token, recipient_id, text):
+def send_text_message(token, recipient_id, text):
     """
-    :param token:
-    :param recipient_id:
-    :param text:
-    :return:
+    :param string token: the facebook token
+    :param string recipient_id: id of the recipient
+    :param string text: the text need to send
+    :return void: send the message through facebook messenger
     """
     req = requests.post("https://graph.facebook.com/v2.6/me/messages",
                         params = {"access_token": token},
                         data = json.dumps({
                             "recipient": {"id": recipient_id},
                             "message": {"text": text}
+                        }),
+                        headers = {"Content-type": "application/json"})
+    if req.status_code != requests.codes.ok:
+        print(req.text)
+
+# TODO test only
+def send_list_view(token, recipient_id, payload):
+    """
+    :param string token: access token for facebook messenger
+    :param string recipient_id: id of the recipient
+    :param json payload: the payload that need to send
+    :return void: send the list view message through facebook messenger
+    """
+    req = requests.post("https:graph.facebook.com/v2.6/me/messages",
+                        params = {"access_token": token},
+                        data = json.dumps({
+                            "recipient": {"id": recipient_id},
+                            "message": {
+                                "attachment": {
+                                    "type": "template",
+                                    "payload": payload
+                                }
+                            }
                         }),
                         headers = {"Content-type": "application/json"})
     if req.status_code != requests.codes.ok:

@@ -37,3 +37,45 @@ def get_event_info_date(day, month, year):
         event_info += "Time: " + data["time"] + "\n"
         event_info += "Location: " + data["location"] + "\n"
     return event_info
+
+# TODO test only
+def get_event_info_list_view():
+    """
+    :return string event_info: get the information for the upcoming event
+    """
+    event_page = scraper.get_webpage_content(EVENT_URL)
+    event_data = scraper.get_event_data(event_page, "li")
+    event_data = event_data[0:2]
+    event_info = ""
+    # for data in event_data:
+    #     event_info += data["title"] + "\n"
+    #     event_info += "Start Date: " + data["startDate"] + "\n"
+    #     event_info += "End Date: " + data["endDate"] + "\n"
+    #     event_info += "Time: " + data["time"] + "\n"
+    #     event_info += "Location: " + data["location"] + "\n"
+    payload = {
+        "template_type": "list",
+        "top_element_style": "compact",
+        "elements": [
+            {
+                "title": event_data[0]["title"],
+                "image_url": "https://www.facebook.com/images/fb_icon_325x325.png",
+                "buttons": {
+                    "title": "view",
+                    "type": "web_url",
+                    "url": "https://www.wit.ai",
+                    "messenger_extensions": true,
+                    "webview_height_ratio": "tall",
+                    "fallback_url": "https://test.com"
+                }
+            }
+        ],
+        "buttons": [
+            {
+                "title": "View More",
+                "type": "postback",
+                "payload": "payload"
+            }
+        ]
+    }
+    return payload

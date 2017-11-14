@@ -105,7 +105,7 @@ class TaBOT:
 
     def get_entities(self):
         """
-        :return dict self._entities: the entities for the question of user
+        :return json self._entities: the entities for the question of user
         """
         return self._entities
 
