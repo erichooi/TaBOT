@@ -65,8 +65,8 @@ def get_event_info_list_view():
                         "title": "View",
                         "type": "web_url",
                         "url": "https://www.youtube.com/watch?v=x2t9OqTb4kE&list=PLyb_C2HpOQSC4M3lzzrql7DSppTeAxh-x&index=8",
-                        "webview_height_ratio": "tall",
-                        "fallback_url": "https://test.com"
+                        # "webview_height_ratio": "tall",
+                        # "fallback_url": "https://test.com"
                     }
                 ]
             },
