@@ -59,6 +59,7 @@ class TaBOT:
         :return void: update the self._data
         """
         date_value = self._entities["datetime"][0]["value"]
+        print(date_value)
         date = parser.parse(date_value)
         print(date)
         self._date["day"] = date.day
