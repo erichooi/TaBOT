@@ -64,7 +64,6 @@ def get_event_info_list_view():
                     {
                         "title": "View",
                         "type": "web_url",
-                        "url": "https://dashboard.heroku.com/apps/",
                         "webview_height_ratio": "tall",
                         "fallback_url": "https://test.com"
                     }
