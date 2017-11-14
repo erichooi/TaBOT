@@ -43,10 +43,10 @@ def webhook():
             elif answer_type == "event_with_date":
                 date = tabot.get_date()
                 print(date)
-                day = date["day"]
-                month = date["month"]
-                year = date["year"]
-                send_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
+                # day = date["day"]
+                # month = date["month"]
+                # year = date["year"]
+                # send_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
             elif answer_type == "greetings":
                 send_message(facebook_access_token, sender_id, greeting_text)
             elif answer_type == "bye":
