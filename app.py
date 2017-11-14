@@ -55,7 +55,7 @@ def webhook():
             else:
                 send_text_message(facebook_access_token, sender_id, help_text)
         else:
-            send_text_message(facebook_access_token, sender_id, help_text)
+            pass
     else:
         pass
 
