@@ -47,7 +47,7 @@ def get_event_info_list_view():
     """
     event_page = scraper.get_webpage_content(EVENT_URL)
     event_data = scraper.get_event_data(event_page, "li")
-    three_random_number = [random.randint(0, len(event_data)) for x in range(3)]
+    three_random_number = random.sample(range(0, len(event_data)), 3)
     random_event_data = [event_data[x] for x in three_random_number]
     elements_list = []
     for data in random_event_data:
@@ -89,37 +89,58 @@ def get_event_info_date_list_view(day, month, year):
     event_page = scraper.get_webpage_content(EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day))
     event_data = scraper.get_event_data(event_page, "div")
     if len(event_data) < 2:
-        pass
-    else:
-        event_data = event_data[0:2]
-    elements_list = []
-
-    for data in event_data:
-        element = {
-            "title": data["title"],
-            "image_url": data["imgSrc"],
-            "buttons": [
+        data = event_data[0]
+        payload = {
+            "template_type": "generic",
+            "elements": [
                 {
-                    "title": "View",
-                    "url": data["url"],
-                    "type": "web_url",
-                    "webview_height_ratio": "compact"
+                    "title": data["title"],
+                    "image_url": data["imgSrc"],
+                    "default_action": {
+                        "type": "web_url",
+                        "url": data["url"],
+                        "webview_height_ratio": "tall"
+                    },
+                    "buttons": [
+                        {
+                            "type": "web_url",
+                            "url": data["url"],
+                            "title": "View Website"
+                        }
+                    ]
                 }
             ]
         }
-        elements_list.append(element)
+    else:
+        event_data = event_data[0:2]
+        elements_list = []
 
-    payload = {
-        "template_type": "list",
-        "top_element_style": "compact",
-        "elements": elements_list,
-        "buttons": [
-            {
-                "title": "View More",
-                "type": "web_url",
-                "url": EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day)
+        for data in event_data:
+            element = {
+                "title": data["title"],
+                "image_url": data["imgSrc"],
+                "buttons": [
+                    {
+                        "title": "View",
+                        "url": data["url"],
+                        "type": "web_url",
+                        "webview_height_ratio": "compact"
+                    }
+                ]
             }
-        ]
-    }
+            elements_list.append(element)
+
+        payload = {
+            "template_type": "list",
+            "top_element_style": "compact",
+            "elements": elements_list,
+            "buttons": [
+                {
+                    "title": "View More",
+                    "type": "web_url",
+                    "url": EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day)
+                }
+            ]
+        }
 
     return payload
