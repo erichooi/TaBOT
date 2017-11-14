@@ -42,7 +42,6 @@ class TaBOT:
 
     def _send_message(self, message):
         self._resp = client.message(message)
-        print(self._resp)
 
     def _update_entities(self):
         """
@@ -59,8 +58,9 @@ class TaBOT:
         """
         :return void: update the self._data
         """
-        date_value = self._entities["dateformat"][0]["value"]
+        date_value = self._entities["datetime"][0]["value"]
         date = parser.parse(date_value)
+        print(date)
         self._date["day"] = date.day
         self._date["month"] = date.month
         self._date["year"] = date.year
