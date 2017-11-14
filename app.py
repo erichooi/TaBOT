@@ -46,7 +46,8 @@ def webhook():
                 day = date["day"]
                 month = date["month"]
                 year = date["year"]
-                send_text_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
+                # send_text_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
+                send_list_view(facebook_access_token, sender_id, event.get_event_info_date_list_view(day, month, year))
             elif answer_type == "greetings":
                 send_text_message(facebook_access_token, sender_id, greeting_text)
             elif answer_type == "bye":
@@ -77,7 +78,6 @@ def send_text_message(token, recipient_id, text):
     if req.status_code != requests.codes.ok:
         print(req.text)
 
-# TODO test only
 def send_list_view(token, recipient_id, payload):
     """
     :param string token: access token for facebook messenger
