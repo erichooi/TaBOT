@@ -45,33 +45,26 @@ def get_event_info_list_view():
     """
     event_page = scraper.get_webpage_content(EVENT_URL)
     event_data = scraper.get_event_data(event_page, "li")
-    event_data = event_data[0:2]
-    event_info = ""
-    # for data in event_data:
-    #     event_info += data["title"] + "\n"
-    #     event_info += "Start Date: " + data["startDate"] + "\n"
-    #     event_info += "End Date: " + data["endDate"] + "\n"
-    #     event_info += "Time: " + data["time"] + "\n"
-    #     event_info += "Location: " + data["location"] + "\n"
+    event_data = event_data
+    elements_list = []
+    for data in event_data:
+        element = {
+            "title": data["title"],
+            "image_url": data["imgSrc"],
+            "buttons": [
+                {
+                    "title": "View",
+                    "url": data["url"],
+                    "webview_height_ratio": "compact"
+                }
+            ]
+        }
+        elements_list.append(element)
+
     payload = {
         "template_type": "list",
         "top_element_style": "compact",
-        "elements": [
-            {
-                "buttons": [
-                    {
-                        "title": "View",
-                        "type": "web_url",
-                        "url": "https://www.youtube.com/watch?v=x2t9OqTb4kE&list=PLyb_C2HpOQSC4M3lzzrql7DSppTeAxh-x&index=8",
-                        "webview_height_ratio": "tall",
-                    }
-                ]
-            },
-            {
-                "title": "fun to test",
-                "subtitle": "very fun"
-            }
-        ],
+        "elements": elements_list,
         "buttons": [
             {
                 "title": "View More",

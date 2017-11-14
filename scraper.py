@@ -21,7 +21,7 @@ def get_webpage_content(url):
 def get_event_data(event_content, list_type="li"):
     """
     :param string event_content: HTML page for searching
-    :param string list_type: tag of list that need to search
+    :param string list_type: tag of list that need to search ("li" for events main page, "div" for event with date)
     :return list event_list: contain the dictionary of information about the event
     """
     soup = BeautifulSoup(event_content, "html.parser")
@@ -39,6 +39,8 @@ def get_event_data(event_content, list_type="li"):
         event_list.append(
             {
                 "title": info.h3.a.text,
+                "url": info.a["href"],
+                "imgSrc": info.a.img["src"],
                 "startDate": timing.group("startDate"),
                 "endDate": timing.group("endDate"),
                 "time": timing.group("time"),
