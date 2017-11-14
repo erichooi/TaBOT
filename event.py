@@ -132,7 +132,7 @@ def get_event_info_date_list_view(day, month, year):
 
         payload = {
             "template_type": "list",
-            "top_element_style": "compact",
+            "top_element_style": "tall",
             "elements": elements_list,
             "buttons": [
                 {
