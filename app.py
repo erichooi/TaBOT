@@ -85,7 +85,7 @@ def send_list_view(token, recipient_id, payload):
     :param json payload: the payload that need to send
     :return void: send the list view message through facebook messenger
     """
-    req = requests.post("https:graph.facebook.com/v2.6/me/messages",
+    req = requests.post("https://graph.facebook.com/v2.6/me/messages",
                         params = {"access_token": token},
                         data = json.dumps({
                             "recipient": {"id": recipient_id},
