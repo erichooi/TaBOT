@@ -45,7 +45,7 @@ def get_event_info_list_view():
     """
     event_page = scraper.get_webpage_content(EVENT_URL)
     event_data = scraper.get_event_data(event_page, "li")
-    event_data = event_data
+    event_data = event_data[0:3]
     elements_list = []
     for data in event_data:
         element = {
