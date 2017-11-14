@@ -70,7 +70,7 @@ class TaBOT:
         """
         # update the answer entity bank
         for entity in self._entities:
-            if entity == "dateformat":
+            if entity == "datetime":
                 self._extract_and_format_date()
             self._answer_entity_bank.append(entity)
         # get the answer type
