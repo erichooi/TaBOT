@@ -64,7 +64,7 @@ def get_event_info_list_view():
                     "title": "view",
                     "type": "web_url",
                     "url": "https://www.wit.ai",
-                    "messenger_extensions": true,
+                    "messenger_extensions": "true",
                     "webview_height_ratio": "tall",
                     "fallback_url": "https://test.com"
                 }
