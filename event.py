@@ -69,8 +69,8 @@ def get_event_info_list_view():
         "buttons": [
             {
                 "title": "View More",
-                "type": "postback",
-                "payload": "payload"
+                "type": "web_url",
+                "url": EVENT_URL
             }
         ]
     }
@@ -86,7 +86,10 @@ def get_event_info_date_list_view(day, month, year):
     """
     event_page = scraper.get_webpage_content(EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day))
     event_data = scraper.get_event_data(event_page, "div")
-    event_data = event_data[0:2]
+    if len(event_data < 2):
+        pass
+    else:
+        event_data = event_data[0:2]
     elements_list = []
 
     for data in event_data:
@@ -111,8 +114,8 @@ def get_event_info_date_list_view(day, month, year):
         "buttons": [
             {
                 "title": "View More",
-                "type": "postback",
-                "payload": "payload"
+                "type": "web_url",
+                "url": EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day)
             }
         ]
     }
