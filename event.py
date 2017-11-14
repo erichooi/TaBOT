@@ -58,15 +58,12 @@ def get_event_info_list_view():
         "top_element_style": "compact",
         "elements": [
             {
-                "title": "Title",
-                "image_url": "https://www.facebook.com/images/fb_icon_325x325.png",
                 "buttons": [
                     {
                         "title": "View",
                         "type": "web_url",
                         "url": "https://www.youtube.com/watch?v=x2t9OqTb4kE&list=PLyb_C2HpOQSC4M3lzzrql7DSppTeAxh-x&index=8",
-                        # "webview_height_ratio": "tall",
-                        # "fallback_url": "https://test.com"
+                        "webview_height_ratio": "tall",
                     }
                 ]
             },
