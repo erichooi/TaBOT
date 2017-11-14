@@ -124,7 +124,7 @@ def get_event_info_date_list_view(day, month, year):
                         "title": "View",
                         "url": data["url"],
                         "type": "web_url",
-                        "webview_height_ratio": "compact"
+                        "webview_height_ratio": "tall"
                     }
                 ]
             }
