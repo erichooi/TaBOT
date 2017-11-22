@@ -77,8 +77,6 @@ def send_text_message(token, recipient_id, text):
                             "message": {"text": text}
                         }),
                         headers = {"Content-type": "application/json"})
-    if req.status_code != requests.codes.ok:
-        print(req.text)
 
 def send_list_view(token, recipient_id, payload):
     """
@@ -102,8 +100,6 @@ def send_list_view(token, recipient_id, payload):
                                 }
                             }),
                             headers = {"Content-type": "application/json"})
-    if req.status_code != requests.codes.ok:
-        print(req.text)
 
 if __name__ == "__main__":
     app.run(debug=True, port=80)
