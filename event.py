@@ -88,6 +88,7 @@ def get_event_info_date_list_view(day, month, year):
     """
     event_page = scraper.get_webpage_content(EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day))
     event_data = scraper.get_event_data(event_page, "div")
+    print(len(event_data))
     if len(event_data) < 2:
         data = event_data[0]
         payload = {
