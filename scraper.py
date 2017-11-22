@@ -15,7 +15,7 @@ def get_webpage_content(url):
     :param string url: URL for the event page that need to scrape
     :return string content: HTML page
     """
-    content = session.get(url, verify=False).text
+    content = session.get(url).text
     return content
 
 def get_event_data(event_content, list_type="li"):
@@ -47,4 +47,5 @@ def get_event_data(event_content, list_type="li"):
                 "location": location.group("location")
             }
         )
+    print(event_list["url"])
     return event_list
