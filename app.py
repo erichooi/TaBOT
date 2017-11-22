@@ -34,6 +34,7 @@ def webhook():
         message_content = entry[0]["messaging"][0]
         sender_id = message_content["sender"]["id"]
 
+        #TODO the attachments is for any sticker
         if ("message" in message_content.keys() and "is_echo" not in message_content["message"].keys() and "attachments" not in message_content["message"].keys()):
             print(message_content)
             message = message_content["message"]["text"]
@@ -86,18 +87,21 @@ def send_list_view(token, recipient_id, payload):
     :param json payload: the payload that need to send
     :return void: send the list view message through facebook messenger
     """
-    req = requests.post("https://graph.facebook.com/v2.6/me/messages",
-                        params = {"access_token": token},
-                        data = json.dumps({
-                            "recipient": {"id": recipient_id},
-                            "message": {
-                                "attachment": {
-                                    "type": "template",
-                                    "payload": payload
+    if bool(payload) == False:
+        send_text_message(token, recipient_id, "Sorry there is no event on this date!!")
+    else:
+        req = requests.post("https://graph.facebook.com/v2.6/me/messages",
+                            params = {"access_token": token},
+                            data = json.dumps({
+                                "recipient": {"id": recipient_id},
+                                "message": {
+                                    "attachment": {
+                                        "type": "template",
+                                        "payload": payload
+                                    }
                                 }
-                            }
-                        }),
-                        headers = {"Content-type": "application/json"})
+                            }),
+                            headers = {"Content-type": "application/json"})
     if req.status_code != requests.codes.ok:
         print(req.text)
 
