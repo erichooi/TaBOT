@@ -60,13 +60,16 @@ class TaBOT:
         """
         try:
             date_value = self._entities["datetime"][0]["value"]
+            date = parser.parse(date_value)
+            self._date["day"] = date.day
+            self._date["month"] = date.month
+            self._date["year"] = date.year
         except KeyError:
             date_value = self._entities["datetime"][0]["values"][0]["from"]["value"]
-        print(date_value)
-        date = parser.parse(date_value)
-        self._date["day"] = date.day
-        self._date["month"] = date.month
-        self._date["year"] = date.year
+            date = parser.parse(date_value)
+            self._date["day"] = date.day + 1
+            self._date["month"] = date.month
+            self._date["year"] = date.year
 
     def _update_answer_type(self):
         """
