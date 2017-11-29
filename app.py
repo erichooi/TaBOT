@@ -20,6 +20,8 @@ help_text += "Find me some event on 27/11/2017."
 
 greeting_text = "Hello! I am TaBot. You can ask me about event information in UTM"
 
+bye_text = "Bye..."
+
 @app.route("/webhook", methods=["GET"])
 def verity():
     # webhook verification
@@ -55,14 +57,12 @@ def webhook():
                     day = date["day"]
                     month = date["month"]
                     year = date["year"]
-                    # TODO testing
-                    print(date)
                     # send_text_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
                     send_list_view(facebook_access_token, sender_id, event.get_event_info_date_list_view(day, month, year))
                 elif answer_type == "greetings":
                     send_text_message(facebook_access_token, sender_id, greeting_text)
                 elif answer_type == "bye":
-                    send_text_message(facebook_access_token, sender_id, "Bye...")
+                    send_text_message(facebook_access_token, sender_id, bye_text)
                 else:
                     send_text_message(facebook_access_token, sender_id, fail_text)
         else:
