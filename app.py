@@ -42,7 +42,7 @@ def webhook():
         if ("message" in message_content.keys() and "is_echo" not in message_content["message"].keys() and "attachments" not in message_content["message"].keys()):
             print(message_content)
             message = message_content["message"]["text"]
-            if message.tolower() == "help":
+            if message.lower() == "help":
                 send_text_message(facebook_access_token, sender_id, help_text)
             else:
                 tabot.generate_answer_type(message)
