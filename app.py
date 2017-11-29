@@ -49,15 +49,15 @@ def webhook():
             else:
                 tabot.generate_answer_type(message)
                 answer_type = tabot.get_answer_type()
+                # TODO testing purpose
+                print(answer_type)
                 if answer_type == "event_only":
-                    # send_text_message(facebook_access_token, sender_id, event.get_event_info())
                     send_list_view(facebook_access_token, sender_id, event.get_event_info_list_view())
                 elif answer_type == "event_with_date":
                     date = tabot.get_date()
                     day = date["day"]
                     month = date["month"]
                     year = date["year"]
-                    # send_text_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
                     send_list_view(facebook_access_token, sender_id, event.get_event_info_date_list_view(day, month, year))
                 elif answer_type == "greetings":
                     send_text_message(facebook_access_token, sender_id, greeting_text)
