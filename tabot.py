@@ -71,6 +71,7 @@ class TaBOT:
             self._date["month"] = date.month
             self._date["year"] = date.year
         print(date)
+        print(date.day)
 
     def _update_answer_type(self):
         """
