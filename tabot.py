@@ -58,8 +58,11 @@ class TaBOT:
         """
         :return void: update the self._data
         """
-        print(self._entities)
-        date_value = self._entities["datetime"][0]["value"]
+        try:
+            date_value = self._entities["datetime"][0]["value"]
+        except KeyError:
+            date_value = self._entities["datetime"][0]["values"]["from"]["value"]
+        print(date_value)
         date = parser.parse(date_value)
         self._date["day"] = date.day
         self._date["month"] = date.month
