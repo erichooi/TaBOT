@@ -10,11 +10,15 @@ facebook_access_token = config.get_yml_section("facebook")["access_token"]
 
 app = Flask(__name__)
 
-help_text = "You can ask me the following question.\n"
-help_text += "1. Any event in UTM lately?\n"
-help_text += "2. Any event on 11/11/2017?"
+fail_text = "Sorry, I cannot help you with that.\n"
+fail_text += "Type 'help' to know more about what I can do"
 
-greeting_text = "Hi! I am TaBot."
+help_text = "You can ask something similar like this:\n"
+help_text += "Is there any event that is happening today?\n"
+help_text += "OR\n"
+help_text += "Find me some event on 27/11/2017."
+
+greeting_text = "Hello! I am TaBot. You can ask me about event information in UTM"
 
 @app.route("/webhook", methods=["GET"])
 def verity():
@@ -38,24 +42,27 @@ def webhook():
         if ("message" in message_content.keys() and "is_echo" not in message_content["message"].keys() and "attachments" not in message_content["message"].keys()):
             print(message_content)
             message = message_content["message"]["text"]
-            tabot.generate_answer_type(message)
-            answer_type = tabot.get_answer_type()
-            if answer_type == "event_only":
-                # send_text_message(facebook_access_token, sender_id, event.get_event_info())
-                send_list_view(facebook_access_token, sender_id, event.get_event_info_list_view())
-            elif answer_type == "event_with_date":
-                date = tabot.get_date()
-                day = date["day"]
-                month = date["month"]
-                year = date["year"]
-                # send_text_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
-                send_list_view(facebook_access_token, sender_id, event.get_event_info_date_list_view(day, month, year))
-            elif answer_type == "greetings":
-                send_text_message(facebook_access_token, sender_id, greeting_text)
-            elif answer_type == "bye":
-                send_text_message(facebook_access_token, sender_id, "Bye...")
-            else:
+            if message == "help":
                 send_text_message(facebook_access_token, sender_id, help_text)
+            else:
+                tabot.generate_answer_type(message)
+                answer_type = tabot.get_answer_type()
+                if answer_type == "event_only":
+                    # send_text_message(facebook_access_token, sender_id, event.get_event_info())
+                    send_list_view(facebook_access_token, sender_id, event.get_event_info_list_view())
+                elif answer_type == "event_with_date":
+                    date = tabot.get_date()
+                    day = date["day"]
+                    month = date["month"]
+                    year = date["year"]
+                    # send_text_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
+                    send_list_view(facebook_access_token, sender_id, event.get_event_info_date_list_view(day, month, year))
+                elif answer_type == "greetings":
+                    send_text_message(facebook_access_token, sender_id, greeting_text)
+                elif answer_type == "bye":
+                    send_text_message(facebook_access_token, sender_id, "Bye...")
+                else:
+                    send_text_message(facebook_access_token, sender_id, fail_text)
         else:
             pass
     else:

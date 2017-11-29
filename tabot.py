@@ -33,7 +33,7 @@ class TaBOT:
             "event_only": ["event"],
             "event_with_date": ["event", "datetime"],
             "bye": ["bye", "greetings"],
-            "greetings": ["greetings"]
+            "greetings": ["greetings"],
         }
         self._entities = dict() # get the entities from user question
         self._date = dict() # get the date from user question if the question has date input
@@ -70,8 +70,6 @@ class TaBOT:
             self._date["day"] = date.day + 1
             self._date["month"] = date.month
             self._date["year"] = date.year
-        print(date)
-        print(date.day)
 
     def _update_answer_type(self):
         """

@@ -47,5 +47,4 @@ def get_event_data(event_content, list_type="li"):
                 "location": location.group("location")
             }
         )
-    print(event_list[0]["url"])
     return event_list
