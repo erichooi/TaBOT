@@ -61,7 +61,7 @@ class TaBOT:
         try:
             date_value = self._entities["datetime"][0]["value"]
         except KeyError:
-            date_value = self._entities["datetime"][0]["values"]["from"]["value"]
+            date_value = self._entities["datetime"][0]["values"]
         print(date_value)
         date = parser.parse(date_value)
         self._date["day"] = date.day
