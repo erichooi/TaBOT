@@ -51,6 +51,7 @@ def webhook():
                 answer_type = tabot.get_answer_type()
                 # TODO testing purpose
                 print(answer_type)
+                
                 if answer_type == "event_only":
                     send_list_view(facebook_access_token, sender_id, event.get_event_info_list_view())
                 elif answer_type == "event_with_date":

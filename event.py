@@ -30,7 +30,6 @@ def get_event_info_date(day, month, year):
     :return string event_info: information of the upcoming event
     """
     event_url = EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day)
-    print(event_url)
     event_page = scraper.get_webpage_content(event_url)
     event_data = scraper.get_event_data(event_page, "div")
     event_data = event_data[0:2]
@@ -88,7 +87,9 @@ def get_event_info_date_list_view(day, month, year):
     :param int year: year that need to search
     :return json payload: payload for the request of list template for facebook
     """
-    event_page = scraper.get_webpage_content(EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day))
+    event_url = EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day)
+    print(event_url)
+    event_page = scraper.get_webpage_content(event_url)
     event_data = scraper.get_event_data(event_page, "div")
     if len(event_data) != 0:
         if len(event_data) < 2:
