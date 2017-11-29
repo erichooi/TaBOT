@@ -42,7 +42,7 @@ def webhook():
         if ("message" in message_content.keys() and "is_echo" not in message_content["message"].keys() and "attachments" not in message_content["message"].keys()):
             print(message_content)
             message = message_content["message"]["text"]
-            if message == "help":
+            if message.tolower() == "help":
                 send_text_message(facebook_access_token, sender_id, help_text)
             else:
                 tabot.generate_answer_type(message)
@@ -55,6 +55,8 @@ def webhook():
                     day = date["day"]
                     month = date["month"]
                     year = date["year"]
+                    # TODO testing
+                    print(date)
                     # send_text_message(facebook_access_token, sender_id, event.get_event_info_date(day, month, year))
                     send_list_view(facebook_access_token, sender_id, event.get_event_info_date_list_view(day, month, year))
                 elif answer_type == "greetings":
