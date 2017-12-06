@@ -170,8 +170,19 @@ def get_event_info_location_list_view(location):
     event_url = EVENT_URL + "/?" + parse.urlencode(params)
     event_page = scraper.get_webpage_content(event_url)
     event_data = scraper.get_event_data(event_page, "div")
+
+    # TODO detele this for testing purpose
+    print(event_data)
+
     if len(event_data) != 0:
+        # TODO testing purpose
+        print("event data not equal to 0")
+
         if len(event_data) < 2:
+
+            #TODO test
+            print("event data less than 2")
+
             data = event_data[0]
             payload = {
                 "template_type": "generic",
@@ -195,6 +206,9 @@ def get_event_info_location_list_view(location):
                 ]
             }
         else:
+            # TODO test
+            print("event more than 2")
+
             event_data = event_data[0:2]
             elements_list = []
 
@@ -226,8 +240,7 @@ def get_event_info_location_list_view(location):
                 ]
             }
     else:
+        #TODO not event
         payload = {}
 
     return payload
-
-print(get_event_info_location_list_view("utm johor bahru"))
