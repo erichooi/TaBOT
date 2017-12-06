@@ -168,9 +168,8 @@ def get_event_info_location_list_view(location):
         "saddress": location,
     }
     event_url = EVENT_URL + "/?" + parse.urlencode(params)
-    print(event_url)
     event_page = scraper.get_webpage_content(event_url)
-    event_data = scraper.get_event_data(event_page, "div")
+    event_data = scraper.get_event_data(event_page, "div", "event_list")
 
     if len(event_data) != 0:
         if len(event_data) < 2:
