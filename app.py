@@ -14,9 +14,9 @@ fail_text = "Sorry, I cannot help you with that.\n"
 fail_text += "Type 'help' to know more about what I can do"
 
 help_text = "You can ask something similar like this:\n"
-help_text += "Is there any event that is happening today?\n"
-help_text += "OR\n"
-help_text += "Find me some event on 27/11/2017."
+help_text += "1. Is there any event that is happening today?\n"
+help_text += "2. Find me some event on 27/11/2017.\n" # search event by date
+help_text += "3. Any event near UTM KL." # search event by location
 
 greeting_text = "Hello! I am TaBot. You can ask me about event information in UTM"
 
