@@ -18,7 +18,7 @@ def get_webpage_content(url):
     content = session.get(url).text
     return content
 
-def get_event_data(event_content, list_type="li"):
+def get_event_data(event_content, list_type="li", list_attr=""):
     """
     :param string event_content: HTML page for searching
     :param string list_type: tag of list that need to search ("li" for events main page, "div" for event with date)
@@ -33,7 +33,7 @@ def get_event_data(event_content, list_type="li"):
     timing_pattern = re.compile(r"Start Date:\s+(?P<startDate>.*?)[\n]*End Date:\s+(?P<endDate>.*?)[\t\n]Time:[\s\t\n]+(?P<time>.*?)\n")
     location_pattern = re.compile(r"Location\s:[\s\n]+(?P<location>.*?)\n")
     event_list = []
-    for info in data.find_all(list_type):
+    for info in data.find_all(list_type, list_attr):
         timing = timing_pattern.search(info.select("p")[0].text + "\n")
         location = location_pattern.search(info.select("p")[1].text + "\n")
         event_list.append(
@@ -48,3 +48,4 @@ def get_event_data(event_content, list_type="li"):
             }
         )
     return event_list
+
