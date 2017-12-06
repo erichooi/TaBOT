@@ -60,6 +60,8 @@ def webhook():
                     month = date["month"]
                     year = date["year"]
                     send_list_view(facebook_access_token, sender_id, event.get_event_info_date_list_view(day, month, year))
+                elif answer_type == "event_with_location":
+                    send_text_message(facebook_access_token, sender_id, "event with location")
                 elif answer_type == "greetings":
                     send_text_message(facebook_access_token, sender_id, greeting_text)
                 elif answer_type == "bye":

@@ -3,11 +3,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from prompt_toolkit import prompt
 from wit import Wit
 from dateutil import parser
 
-import event
 import config
 
 access_token = config.get_yml_section("wit")["access_token"]
@@ -32,6 +30,7 @@ class TaBOT:
         self.entity_answer = {
             "event_only": ["event"],
             "event_with_date": ["event", "datetime"],
+            "event_with_location": ["event", "location"],
             "bye": ["bye", "greetings"],
             "greetings": ["greetings"],
         }
@@ -45,8 +44,7 @@ class TaBOT:
 
     def _update_entities(self):
         """
-        :param dict resp: response message from wit ai after sending message
-        :return int ErrorCode: refer ErrorCode class
+        :return void: update the self._entities
         """
         self._entities = self._resp["entities"]
         if not self._entities:
