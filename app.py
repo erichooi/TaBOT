@@ -62,6 +62,8 @@ def webhook():
                     send_list_view(facebook_access_token, sender_id, event.get_event_info_date_list_view(day, month, year))
                 elif answer_type == "event_with_location":
                     location = tabot.get_location()
+                    #TODO test
+                    print(location)
                     send_list_view(facebook_access_token, sender_id, event.get_event_info_location_list_view(location))
                 elif answer_type == "greetings":
                     send_text_message(facebook_access_token, sender_id, greeting_text)
