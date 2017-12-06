@@ -1,4 +1,5 @@
 import random
+import urllib.parse as parse
 import config
 import scraper
 
@@ -89,7 +90,11 @@ def get_event_info_date_list_view(day, month, year):
     """
     if day in range(10):
         day = "0{0}".format(day)
-    event_url = EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day)
+    params = {
+        "s": "Calender-Event",
+        "m": str(year) + str(month) + str(day)
+    }
+    event_url = EVENT_URL + "/?" + parse.urlencode(params)
     event_page = scraper.get_webpage_content(event_url)
     event_data = scraper.get_event_data(event_page, "div")
     if len(event_data) != 0:
@@ -143,7 +148,80 @@ def get_event_info_date_list_view(day, month, year):
                     {
                         "title": "View More",
                         "type": "web_url",
-                        "url": EVENT_URL + "/?s=Calender-Event&m=" + str(year) + str(month) + str(day)
+                        "url": EVENT_URL + "/?" + parse.urlencode(params)
+                    }
+                ]
+            }
+    else:
+        payload = {}
+
+    return payload
+
+def get_event_info_location_list_view(location):
+    """
+    :param str location: location that need to search
+    :return json payload: payload for the request of list template for facebook
+    """
+    params = {
+        "s": location,
+        "t": "event",
+        "saddress": location,
+    }
+    event_url = EVENT_URL + "/?" + parse.urlencode(params)
+    event_page = scraper.get_webpage_content(event_url)
+    event_data = scraper.get_event_data(event_page, "div")
+    if len(event_data) != 0:
+        if len(event_data) < 2:
+            data = event_data[0]
+            payload = {
+                "template_type": "generic",
+                "elements": [
+                    {
+                        "title": data["title"],
+                        "image_url": data["imgSrc"],
+                        "default_action": {
+                            "type": "web_url",
+                            "url": data["url"],
+                            "webview_height_ratio": "tall"
+                        },
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": data["url"],
+                                "title": "View Website"
+                            }
+                        ]
+                    }
+                ]
+            }
+        else:
+            event_data = event_data[0:2]
+            elements_list = []
+
+            for data in event_data:
+                element = {
+                    "title": data["title"],
+                    "image_url": data["imgSrc"],
+                    "buttons": [
+                        {
+                            "title": "View",
+                            "url": data["url"],
+                            "type": "web_url",
+                            "webview_height_ratio": "compact"
+                        }
+                    ]
+                }
+                elements_list.append(element)
+
+            payload = {
+                "template_type": "list",
+                "top_element_style": "compact",
+                "elements": elements_list,
+                "buttons": [
+                    {
+                        "title": "View More",
+                        "type": "web_url",
+                        "url": EVENT_URL + "/?" + parse.urlencode(params)
                     }
                 ]
             }

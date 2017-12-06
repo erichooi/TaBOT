@@ -36,6 +36,7 @@ class TaBOT:
         }
         self._entities = dict() # get the entities from user question
         self._date = dict() # get the date from user question if the question has date input
+        self._location = "" # get the location from user question if question has location
         self._answer_entity_bank = [] # get the possible combination of entity to answer user question
         self._answer_type = "" # get the type of answer in self.entity_answer
 
@@ -62,12 +63,19 @@ class TaBOT:
             self._date["day"] = date.day
             self._date["month"] = date.month
             self._date["year"] = date.year
+        # handle for range of time for example: weekend
         except KeyError:
             date_value = self._entities["datetime"][0]["values"][0]["from"]["value"]
             date = parser.parse(date_value)
             self._date["day"] = date.day + 1
             self._date["month"] = date.month
             self._date["year"] = date.year
+
+    def _extract_location(self):
+        """
+        :return void: update the self._location
+        """
+        self._location = self._entities["location"][0]["value"]
 
     def _update_answer_type(self):
         """
@@ -77,6 +85,8 @@ class TaBOT:
         for entity in self._entities:
             if entity == "datetime":
                 self._extract_and_format_date()
+            elif entity == "location":
+                self._extract_location()
             self._answer_entity_bank.append(entity)
         # get the answer type
         for key, value in self.entity_answer.items():
@@ -104,9 +114,15 @@ class TaBOT:
 
     def get_date(self):
         """
-        :return dict self._date: the date of from the question of user
+        :return dict self._date: the date from the question of user
         """
         return self._date
+
+    def get_location(self):
+        """
+        :return str self._location: the location from the question of user
+        """
+        return self._location
 
     def get_entities(self):
         """
