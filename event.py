@@ -201,6 +201,8 @@ def get_event_info_location_list_view(location):
             elements_list = []
 
             for data in event_data:
+                if data["title"] is "":
+                    data["title"] = "No title"
                 element = {
                     "title": data["title"],
                     "image_url": data["imgSrc"],
