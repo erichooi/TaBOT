@@ -229,3 +229,5 @@ def get_event_info_location_list_view(location):
         payload = {}
 
     return payload
+
+print(get_event_info_location_list_view("utm johor bahru"))
